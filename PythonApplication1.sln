@@ -12,7 +12,7 @@ def thongtin_nhap(nhap_so):
     else:
         print("Số bạn chọn không đúng , vui lòng nhập lại!")
         return -1
-        
+       
 def dieukien(thongtin_nguoichoi,so_game):
     if thongtin_nguoichoi < so_game:
         print("Số của bạn bé hơn số của game đưa ra !")
