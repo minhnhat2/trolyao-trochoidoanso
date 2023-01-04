@@ -1,23 +1,43 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.33205.214
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PythonApplication1", "PythonApplication1.pyproj", "{8C0FAB07-10BC-47BE-A926-15492D814EC2}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8C0FAB07-10BC-47BE-A926-15492D814EC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C0FAB07-10BC-47BE-A926-15492D814EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {7F6C611C-C1F4-4B67-BFF8-20D5F1CC9C98}
-	EndGlobalSection
-EndGlobal
+import random
+print(("Chọn các số từ 0 tới 100 , nếu bạn đoán đúng bạn sẽ thắng. "))
+def thongtin_nhap(nhap_so):
+    thongtin_raw=input("Nhập vào số bạn chọn: ")
+    if thongtin_raw.isnumeric():
+        thongtin=int(thongtin_raw)
+        if thongtin in nhap_so:
+            return thongtin
+        else:
+            print("Số bạn vừa nhập không hợp lệ , vui lòng nhập lại!")
+            return -1
+    else:
+        print("Số bạn chọn không đúng , vui lòng nhập lại!")
+        return -1
+        
+def dieukien(thongtin_nguoichoi,so_game):
+    if thongtin_nguoichoi < so_game:
+        print("Số của bạn bé hơn số của game đưa ra !")
+    else:
+        print("Số của bạn lớn hơn số của game đưa ra !")
+
+def thongtin_game(con_so):
+    nhap_so=[_ for _ in range(0, 101)]
+    so_game=random.choice(nhap_so)
+    
+    a=0
+    while a<con_so:
+        thongtin_nguoichoi=thongtin_nhap(nhap_so)
+        if thongtin_nguoichoi==-1:
+            print("Thử lại 1 số khác: ")
+        elif so_game==thongtin_nguoichoi:
+            print(f"Hoan hô !!! Bạn đoán đúng rồi, bạn thật tài năng .Số đó chính là {thongtin_nguoichoi}")
+            return
+        else:
+            print("Xin lỗi , bạn đoán sai bét rồi hihi ")
+            dieukien(thongtin_nguoichoi,so_game)
+            a=a+1
+    else:
+        print(f"Tất cả số bạn nhập bét , bạn đoán quá gà .Số của tôi đưa ra là {so_game}")
+
+if __name__ == "__main__":
+    luotchoi=50
+    thongtin_game(luotchoi)
