@@ -63,11 +63,6 @@ def search_wikipedia(query):
         # Xử lý lỗi trong trường hợp từ khóa query không chính xác
         print(e.options)
 
-
-
-
-
-
 def command():
     c=sr.Recognizer() #object này giúp ta có thể nhận biết giọng nói
     with sr.Microphone() as source:
