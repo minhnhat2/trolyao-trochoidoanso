@@ -6,8 +6,6 @@ import ctypes
 from random import randint
 import json
 import re
-import webbrowser
-import smtplib
 import turtle
 from random import randint, choice
 import requests
@@ -18,8 +16,6 @@ from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 from time import perf_counter, strftime
 from gtts import gTTS, tts
-from youtube_search import YoutubeSearch
-from googlesearch import search
 import speech_recognition as sr
 from gtts import gTTS 
 import webbrowser as wb
@@ -29,6 +25,9 @@ import pyautogui
 import wikipedia
 from webdriver_manager.chrome import ChromeDriverManager
 import playsound
+import nltk
+from nltk.chat.util import Chat, reflections
+
 nhat=pyttsx3.init()
 voice=nhat.getProperty('voices')
 nhat.setProperty('voice',voice[1].id) #void[0].id là nam ngược lại là nữ
@@ -64,17 +63,25 @@ def search_wikipedia(query):
         print(e.options)
 
 def command():
-    c=sr.Recognizer() #object này giúp ta có thể nhận biết giọng nói
-    with sr.Microphone() as source:
-        c.pause_threshold=2 #Lệnh này để đặt khoảng thời gian dừng giọng nói 
-        audio=c.listen(source)
-    try:
-        query=c.recognize_google(audio,language='en')
-        print("Me: "+ query)
-    except sr.UnknownValueError:
-        print("Please repeat or typing the command ")
-        query=str(input('Your order is : '))
-    return query
+    c = sr.Recognizer()
+    count = 0
+    while True:
+        with sr.Microphone() as source:
+            c.pause_threshold = 2
+            audio = c.listen(source)
+        try:
+            query = c.recognize_google(audio, language='en')
+            print("Me: " + query)
+            return query
+        except sr.UnknownValueError:
+            count += 1
+            if count > 1:
+                speak("I'm sorry, I didn't understand your question. Please type it out for me.")
+                query = input("Your order is: ")
+                return query
+            else:
+                speak("I'm sorry, I didn't understand your question. Please repeat it.")
+
 
 
 if __name__=="__main__":
@@ -87,7 +94,19 @@ if __name__=="__main__":
             url=f"https://www.google.com/search?q={search}"
             wb.get().open(url)
             speak(f'Here is your {search} on google')
+        if "mở google"in query:
+            speak("What should i search boss ? ")
+            search=command().lower()
+            url=f"https://www.google.com/search?q={search}"
+            wb.get().open(url)
+            speak(f'Here is your {search} on google')
         if "open youtube"in query:
+            speak("What should i search boss ? ")
+            search=command().lower()
+            url=f"https://www.youtube.com/search?q={search}"
+            wb.get().open(url)
+            speak(f'Here is your {search} on youtube')
+        if "mở youtube"in query:
             speak("What should i search boss ? ")
             search=command().lower()
             url=f"https://www.youtube.com/search?q={search}"
@@ -96,8 +115,15 @@ if __name__=="__main__":
         elif "open video"in query:
             meme=r"C:\Users\Le Minh Nhat\Downloads\Anh Da Đen - Facebook.mp4"
             os.startfile(meme)
+        elif "mở video"in query:
+            meme=r"C:\Users\Le Minh Nhat\Downloads\Anh Da Đen - Facebook.mp4"
+            os.startfile(meme)
         elif "time" in query:
             time()
+        elif "mấy giờ" in query:
+            time()
+        elif "chào" in query:
+            speak("Hi,i can hear you , how can i help you ?")
         elif "hi" in query:
             speak("Hi,i can hear you , how can i help you ?")
         elif "hello" in query:
@@ -108,7 +134,11 @@ if __name__=="__main__":
             speak("Hi,i can hear you , how can i help you ?")
         elif "your name" in query:
             speak("My name is Minh Nhat and i am is a chatbot was created by Nhat")
+        elif "tên bạn" in query:
+            speak("My name is Minh Nhat and i am is a chatbot was created by Nhat")
         elif "where're you from" in query:
+            speak("I'm from Ho Chi Minh city , i was created by Minh Nhat")
+        elif "đến từ đâu" in query:
             speak("I'm from Ho Chi Minh city , i was created by Minh Nhat")
         elif "where are you from" in query:
             speak("I'm from Ho Chi Minh city , i was created by Minh Nhat")
@@ -118,9 +148,17 @@ if __name__=="__main__":
             speak("I'm from Ho Chi Minh city , i was created by Minh Nhat")
         elif "where create" in query:
             speak("I'm from Ho Chi Minh city , i was created by Minh Nhat")
-        elif "do you know " in query:
-            speak("I don't know , sorry")
+        elif "i want know" in query:
+            speak("What should i search boss ? ")
+            search=command().lower()
+            search_wikipedia(query)
+        elif "tìm hiểu về" in query:
+            speak("What should i search boss ? ")
+            search=command().lower()
+            search_wikipedia(query)
         elif "how old are you" in query:
+            speak("I'm one year old and my created was twenty one")
+        elif "bao nhiêu tuổi" in query:
             speak("I'm one year old and my created was twenty one")
         elif "how old " in query:
             speak("I'm one year old and my created was twenty one")
@@ -152,6 +190,9 @@ if __name__=="__main__":
         elif "hear music" in query:
             music=r"C:\Users\Le Minh Nhat\Downloads\[Vietsub+TikTok] Lan Đình Tự - Châu Kiệt Luân -- 蘭亭序 - 周杰倫.mp4"
             os.startfile(music)
+        elif "nghe nhạc" in query:
+            music=r"C:\Users\Le Minh Nhat\Downloads\[Vietsub+TikTok] Lan Đình Tự - Châu Kiệt Luân -- 蘭亭序 - 周杰倫.mp4"
+            os.startfile(music)
         elif "how are you" in query:
             speak("I'm fine , thanks for question !!!")
         elif "facebook"in query:
@@ -175,10 +216,20 @@ if __name__=="__main__":
             speak("My favorite footbool team is Manchester United")
             football_club=r"C:\Users\Le Minh Nhat\Downloads\M.U.png"
             os.startfile(football_club)
+        elif "câu lạc bộ yêu thích" in query:
+            speak("My favorite footbool team is Manchester United")
+            football_club=r"C:\Users\Le Minh Nhat\Downloads\M.U.png"
+            os.startfile(football_club)
         elif "tell me" in query:  #wiki
             search=command().lower()
             search_wikipedia(query)
         elif "image"in query:
+            cap = cv2.VideoCapture(0)
+            ret, frame = cap.read()
+            cv2.imshow("Camera", frame)
+            cv2.waitKey(0)
+            cap.release()
+        elif "chụp ảnh"in query:
             cap = cv2.VideoCapture(0)
             ret, frame = cap.read()
             cv2.imshow("Camera", frame)
@@ -252,6 +303,12 @@ if __name__=="__main__":
             url=f"https://www.google.com/maps/place/search?q={search}"
             wb.get().open(url)
             speak(f'Here is your {search} on map')
+        if "địa điểm"in query:
+            speak("What should i search boss ? ")
+            search=command().lower()
+            url=f"https://www.google.com/maps/place/search?q={search}"
+            wb.get().open(url)
+            speak(f'Here is your {search} on map')
         elif "hear"in query:
             speak("Yes, i am listening")
         elif"open zalo"in query:
@@ -278,8 +335,8 @@ if __name__=="__main__":
             url=f"https://vnexpress.net/"
             wb.get().open(url)
             speak(f'Here is newpaper')
-        elif "happy new year"in query:
-            speak("Happy New year my boss, I LOVE YOU")
+        elif "happy birthday"in query:
+            speak("Happy Birtday my boss, I LOVE YOU")
             for i in range(1,45):
                 print('')
             s=''
@@ -289,12 +346,12 @@ if __name__=="__main__":
                     s+=' '
                     count-=1
                 if (i % 10 ==0):
-                    print(s + 'Happy New Year 2023')
+                    print(s + 'Happy Birtday')
                 else:
                     print(s + '*')
 
                 s=''
-        elif "firework new year"in query:
+        elif "happy new year"in query:
             width = 700
             height = 500
             S = turtle.Screen()
@@ -394,6 +451,4 @@ if __name__=="__main__":
                 T3.clearn()
                 T4.clearn()
                 T5.clearn()
-
-        else:
-            speak("Sorry, i don't know what you say")
+       
