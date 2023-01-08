@@ -38,7 +38,7 @@ def speak(audio):
     nhat.runAndWait()
 speak("Hello , i am the botchat created by Minh Nhat and i will answer all question you can ")
 
-def time():
+def time(): 
     Time=datetime.datetime.now().strftime("Now is a %I: %M : %p") #I giờ , M phút , p buổi
     speak(Time)
 
