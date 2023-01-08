@@ -1,6 +1,6 @@
 import random
 print(("Chọn các số từ 0 tới 100 , nếu bạn đoán đúng bạn sẽ thắng. "))
-def thongtin_nhap(nhap_so):
+def thongtin_nhap(nhap_so): 
     thongtin_raw=input("Nhập vào số bạn chọn: ")
     if thongtin_raw.isnumeric():
         thongtin=int(thongtin_raw)
