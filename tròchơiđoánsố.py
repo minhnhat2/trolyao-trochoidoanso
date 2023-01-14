@@ -3,15 +3,8 @@ print(("Chọn các số từ 0 tới 100 , nếu bạn đoán đúng bạn sẽ
 def thongtin_nhap(game_so): 
     thongtin_raw=input("Nhập vào số bạn chọn: ")
     if thongtin_raw.isnumeric():
-    #đang kiểm tra giá trị nhập vào của người dùng (được lưu trong biến "thongtin_raw") có phải là số hay không. 
-    #Phương thức "isnumeric()" được sử dụng để kiểm tra xem một chuỗi chỉ chứa các ký tự số (0-9) hay không. 
-    #Nếu đầu vào là số, chương trình sẽ tiến hành bước tiếp theo, đó là kiểm tra xem số đó có nằm trong phạm vi hợp lệ (0-100) hay không. 
-    #Nếu nhập không phải là số, chương trình sẽ hiển thị thông báo lỗi và yêu cầu người dùng nhập lại số hợp lệ.
         thongtin=int(thongtin_raw)
         if thongtin in game_so:
-        #kiểm tra xem số mà người dùng nhập vào có nằm trong phạm vi hợp lệ hay không
-        #Biến "game_so" là danh sách các số từ 0 đến 100 nên nếu thông tin nhập của người dùng (được lưu trong biến "thongtin") 
-        #nằm trong danh sách đó thì có nghĩa là thông tin nhập hợp lệ và nằm trong khoảng giá trị hợp lệ.
             return thongtin
         else:
             print("Số bạn vừa nhập không hợp lệ , vui lòng nhập lại!")
