@@ -7,7 +7,7 @@ from random import randint
 import json
 import re
 import turtle
-from random import randint, choice
+from random import randint, choice   
 import requests
 import urllib
 import urllib.request as urllib2
